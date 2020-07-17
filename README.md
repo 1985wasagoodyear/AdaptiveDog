@@ -4,7 +4,7 @@ A demonstration of creating UI around Size Classes.
 
 A successor to the original SizeDog sample.
 
-# Abstract
+## Abstract
 
 All `UIViewController`s know their current Size Class, within their `traitCollection` property. 
 
@@ -18,7 +18,13 @@ Any `UIViewController` can [respond to orientation changes by overriding the fun
 func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?)
 ```
 
-# References
+## Objective:
+
+I want to orient an image and some text like in this picture:
+
+![design](design.png)
+
+## References
 
 [A nice StackOverflow reference](https://stackoverflow.com/questions/25685829/programmatically-implementing-two-different-layouts-using-size-classes)
 
