@@ -22,10 +22,15 @@ import UIKit
 
 class BasicAdaptiveViewController: UIViewController {
     
+    // MARK: - UI Properties
+    
     let images: [UIImage] = {
-        [UIImage(named: "dog"), UIImage(named: "ratatouille")]
-            .compactMap { $0 }
+        [
+            UIImage(named: "dog"),
+            UIImage(named: "ratatouille")
+        ].compactMap { $0 }
     }()
+    
     
     lazy var imageView: UIImageView = {
         let image = self.images.first
@@ -52,6 +57,8 @@ class BasicAdaptiveViewController: UIViewController {
     /// constraints for portrait orientation
     private var regularConstraints: [NSLayoutConstraint] = []
     
+    // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
@@ -59,15 +66,17 @@ class BasicAdaptiveViewController: UIViewController {
         toggleConstraints()
     }
     
-    private func addSubviews() {
-        view.addSubview(textLabel)
-        view.addSubview(imageView)
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         imageView.tag = (imageView.tag == 0) ? 1 : 0
         imageView.image = images[imageView.tag]
+    }
+    
+    // MARK: - Setup Methods
+    
+    private func addSubviews() {
+        view.addSubview(textLabel)
+        view.addSubview(imageView)
     }
     
     private func buildConstraints() {
@@ -97,14 +106,19 @@ class BasicAdaptiveViewController: UIViewController {
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
     }
     
+    // MARK: - Respond to Layout Changes
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         toggleConstraints()
     }
     
+    /// enables the correct constraints for the current Size Class
     func toggleConstraints() {
         let sizeClass = (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass)
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+        
+        // activate the constraints for the designated size class
+        switch sizeClass {
         case (.compact, .regular):
             NSLayoutConstraint.deactivate(compactConstraints)
             NSLayoutConstraint.activate(regularConstraints)
